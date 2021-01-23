@@ -1,6 +1,5 @@
-import sys
-import re
 import random
+from traceback import print_exc
 
 '''
 	 * Cette méthode permet de récuperer la liste initial 
@@ -10,14 +9,18 @@ import random
 def recuperListe():
     tailleListe=1
     #Tant que impair demande le nombre de d'elements souhaités
-    while tailleListe%2 !=0:
-        print("Entrer le nombres d'elements que vous souhaitez ?(nombre pair seulement) : ")
+    while tailleListe%2 !=0 and tailleListe <=4:
+        print("Entrer le nombres d'elements que vous souhaitez ?(nombre pair et supérieur a 4) : ")
         tailleListe = int(input())
 
     listeNombre = []
-    for i in range(tailleListe):
-        print("Entrer le nombre n",i)
-        listeNombre.append(int(input()))
+    while len(listeNombre) < tailleListe:
+        print("Entrer le nombre n{} :".format(len(listeNombre)+1))
+        nombre = int(input())
+        if nombre not in listeNombre:
+            listeNombre.append(nombre)
+        else:
+            print("\n!!! veuillez entrer un nombre différent de ceux utilisés précédemment !!!\n")
 
     return listeNombre
 '''
@@ -67,14 +70,13 @@ def trouverCombinaisonListe(listeNombre):
             combinaisonPossible.append(listeTemporaire) # ajoute la combinaison a liste des differentes combinaisons
 
     #utile pour debug
-    print("Liste de toutes les combinaisons: ",combinaisonPossible)
+    #print("Liste de toutes les combinaisons: ",combinaisonPossible)
     return combinaisonPossible
 
 '''
 	 * Cette méthode permet trouver toutes les combinaisons qui agissent comme la suite x,y et z tel que (x-y) > (y-z)
 	 *@param Une liste contenant une liste par combinaison possible ( Liste de liste de int )
 	 * @return Une liste contenant toutes les combinaisons prouvant la regles : x,y et z tel que (x-y) > (y-z)
-
 '''
 def trouversuiteordonancer(listenombre):
     leslistesvalides = []
@@ -91,17 +93,15 @@ def trouversuiteordonancer(listenombre):
             # si le compteur correspond au nombre d'éléments de la liste - 1 cela signifie que le résultat est valide
             leslistesvalides.append(listenombre[i])
     #print("Nombre de combinaisons: ", len(listenombre))
-    print("Les listes valides sont les suivantes: ", leslistesvalides)
+    print("Les listes valides sont les suivantes: {}".format(leslistesvalides))
     return leslistesvalides
 
 def main():
     try:
         listeNombre = recuperListe()
         trouversuiteordonancer(trouverCombinaisonListe(listeNombre))
-
-
     except:
-        print('Problème!')
+        print_exc()
 
 if __name__ == '__main__':
     quit(main())
